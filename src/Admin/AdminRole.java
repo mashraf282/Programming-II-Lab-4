@@ -6,8 +6,31 @@ public class AdminRole extends Role {
 
     private EmployeeUserDatabase database;
 
-    // Check pdf for constructor/setters/getters details
-    // Check pdf for other method details
+    public AdminRole(){
+        this.database = new EmployeeUserDatabase("Employees.txt");
+    }
+
+    // Extra Setters and Getters (not requested but useful)
+    public EmployeeUserDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(EmployeeUserDatabase database) {
+        this.database = database;
+    }
+
+    // Requested methods (see pdf for details)
+    public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) {
+
+    }
+
+    public EmployeeUser[] getListOfEmployees() {
+        return null;
+    }
+
+    public void removeEmployee(String key) {
+
+    }
 
     @Override
     public void logout() {

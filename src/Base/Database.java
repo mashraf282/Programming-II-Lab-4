@@ -2,7 +2,7 @@ package Base;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public abstract class Database<T> {
 
@@ -14,13 +14,10 @@ public abstract class Database<T> {
         this.filename = filename;
     }
 
-    public ArrayList<T> getRecords() {
-        return records;
-    }
-
     public void setRecords(ArrayList<T>records) {
         this.records = records;
     }
+
 
     public void readFromFile()
     {
@@ -43,11 +40,28 @@ public abstract class Database<T> {
     }
 
     public abstract T createRecordFrom(String line);
-    public abstract ArrayList<T>returnAllRecords();
+
+    public ArrayList<T>returnAllRecords()
+    {
+        return this.records;
+    }
+
     public abstract boolean contains(String key);
+
     public abstract T getRecord(String key);
-    public abstract void insertRecord(Object record);
-    public abstract void deleteRecord(String key);
+
+    public void insertRecord(T record)
+    {
+        records.add(record);
+    }
+
+    public void deleteRecord(String key)
+    {
+        records.remove(getRecord(key));
+    }
+
     public abstract void saveToFile();
+
+
 
 }

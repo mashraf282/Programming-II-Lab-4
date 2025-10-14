@@ -11,24 +11,12 @@ public class EmployeeUserDatabase extends Database<EmployeeUser> {
         setRecords(new ArrayList<EmployeeUser>());
     }
 
-    // Check pdf for constructor/setters/getters details
-    // Check pdf for other method details (make sure to check parent class before overriding)
-    // Initialize ArrayList with EmployeeUser objects
-
-    @Override
-    public void readFromFile() {
-
-    }
-
+    // Request methods (see pdf for details/the rest are in parent class)
     @Override
     public EmployeeUser createRecordFrom(String line) {
         return null;
     }
 
-    @Override
-    public ArrayList<EmployeeUser> returnAllRecords() {
-        return null;
-    }
 
     @Override
     public boolean contains(String key) {
@@ -40,15 +28,6 @@ public class EmployeeUserDatabase extends Database<EmployeeUser> {
         return null;
     }
 
-    @Override
-    public void insertRecord(Object record) {
-
-    }
-
-    @Override
-    public void deleteRecord(String key) {
-
-    }
 
     @Override
     public void saveToFile() {
