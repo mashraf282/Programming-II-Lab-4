@@ -1,7 +1,6 @@
 package Base;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,17 +26,17 @@ public abstract class Database<T> {
     {
         try{
             File file = new File(filename);
-            Scanner fr = new Scanner(file);
+            BufferedReader fr = new BufferedReader(new FileReader(file));
             String line;
             T record;
-            while(fr.hasNextLine())
+            while((line =fr.readLine()) != null)
             {
-                line = fr.nextLine();
                 record = (T) createRecordFrom(line);
-                records.add(record);
+                if(record != null)
+                    records.add(record);
             }
         }
-        catch(FileNotFoundException e) {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("File not found: " + filename);
