@@ -4,11 +4,16 @@ import Base.Database;
 
 import java.util.ArrayList;
 
-public class ProductDatabase extends Database {
+public class ProductDatabase extends Database<Product> {
 
+
+    public ProductDatabase(String filename) {
+        super(filename);
+        setRecords(new ArrayList<Product>());
+    }
 
     // Check pdf for constructor/setters/getters details
-    // Check pdf for other method details
+    // Check pdf for other method details (make sure to check parent class before overriding)
     // Initialize ArrayList with Product objects
 
     @Override
@@ -17,12 +22,12 @@ public class ProductDatabase extends Database {
     }
 
     @Override
-    public Object createRecordFrom(String line) {
+    public Product createRecordFrom(String line) {
         return null;
     }
 
     @Override
-    public ArrayList returnAllRecords() {
+    public ArrayList<Product> returnAllRecords() {
         return null;
     }
 
@@ -32,7 +37,7 @@ public class ProductDatabase extends Database {
     }
 
     @Override
-    public Object getRecord(String key) {
+    public Product getRecord(String key) {
         return null;
     }
 
