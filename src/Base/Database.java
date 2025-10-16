@@ -18,25 +18,31 @@ public abstract class Database<T> {
         this.records = records;
     }
 
+    public String getFilename()
+    {
+        return this.filename;
+    }
+
 
     public void readFromFile()
     {
         try{
             File file = new File(filename);
-            BufferedReader fr = new BufferedReader(new FileReader(file));
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             T record;
-            while((line =fr.readLine()) != null)
+            while((line =br.readLine()) != null)
             {
                 record = (T) createRecordFrom(line);
                 if(record != null)
                     records.add(record);
             }
+            br.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("File not found: " + filename);
+
     }
 
     public abstract T createRecordFrom(String line);
