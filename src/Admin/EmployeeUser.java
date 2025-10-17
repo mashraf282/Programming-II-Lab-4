@@ -15,7 +15,6 @@ public class EmployeeUser extends Information {
         this.phoneNumber = phoneNumber;
     }
 
-
     // Extra Setters and Getters (not requested but useful)
     public String getEmployeeId() {
         return employeeId;
@@ -61,11 +60,11 @@ public class EmployeeUser extends Information {
     // Requested methods (check pdf for details)
     @Override
     public String lineRepresentation() {
-        return "";
+        return employeeId + "," + name + "," + email + "," + address + "," + phoneNumber;
     }
 
     @Override
     public String getSearchKey() {
-        return "";
+        return employeeId;
     }
 }
