@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CustomerProductDatabase extends Database<CustomerProduct> {
@@ -33,11 +34,8 @@ public class CustomerProductDatabase extends Database<CustomerProduct> {
     @Override
     public boolean contains(String key) {
         for(CustomerProduct cp : returnAllRecords()) {
-            String dateStr = cp.getPurchaseDate().toString();
-            String year = dateStr.substring(0, 4);
-            String month = dateStr.substring(5, 7);
-            String day = dateStr.substring(8,10);
-            dateStr = day + "-" + month + "-" + year;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            String dateStr = cp.getPurchaseDate().format(formatter);
             String tempKey = cp.getCustomerSSN() + "," + cp.getProductID() + "," + dateStr;
             if(tempKey.equals(key))
                 return true;
@@ -67,11 +65,8 @@ public class CustomerProductDatabase extends Database<CustomerProduct> {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for(CustomerProduct cp : returnAllRecords())
             {
-                String dateStr = cp.getPurchaseDate().toString();
-                String year = dateStr.substring(0, 4);
-                String month = dateStr.substring(5, 7);
-                String day = dateStr.substring(8,10);
-                dateStr = day + "-" + month + "-" + year;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String dateStr = cp.getPurchaseDate().format(formatter);
                 String line = String.format("%s,%s,%s,%s", cp.getCustomerSSN(), cp.getProductID(), dateStr, cp.isPaid());
                 bw.write(line);
                 bw.newLine();
