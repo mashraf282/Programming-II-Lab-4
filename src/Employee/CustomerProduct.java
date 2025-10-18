@@ -3,6 +3,7 @@ package Employee;
 import Base.Information;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CustomerProduct extends Information {
 
@@ -32,24 +33,24 @@ public class CustomerProduct extends Information {
 
     // Requested methods (see pdf for details)
     public String getCustomerSSN() {
-        return customerSSN;
+        return this.customerSSN;
     }
 
     public String getProductID() {
-        return productID;
+        return this.productID;
     }
 
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
-    }
+    public LocalDate getPurchaseDate() { return this.purchaseDate; }
 
     @Override
     public String lineRepresentation() {
-        return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd,MM,yyyy");
+        String dateStr = this.getPurchaseDate().format(formatter);
+        return this.customerSSN + "," + this.productID + "," + dateStr + "," + this.paid;
     }
 
     public boolean isPaid() {
-        return paid;
+        return this.paid;
     }
 
     public void setPaid(boolean paid) {
@@ -58,7 +59,9 @@ public class CustomerProduct extends Information {
 
     @Override
     public String getSearchKey() {
-        return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String dateStr = this.getPurchaseDate().format(formatter);
+        return this.customerSSN + "," + this.productID + "," + dateStr;
     }
 
 }
