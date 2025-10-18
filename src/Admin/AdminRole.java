@@ -2,12 +2,18 @@ package Admin;
 
 import Base.Role;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class AdminRole extends Role {
 
     private EmployeeUserDatabase database;
 
     public AdminRole() {
         this.database = new EmployeeUserDatabase("Employees.txt");
+        //TODO: i think we should load the data from file here as logout saves channged data to file
     }
 
     // Extra Setters and Getters (not requested but useful)
@@ -21,17 +27,23 @@ public class AdminRole extends Role {
 
     // Requested methods (see pdf for details)
     public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) {
+        database.insertRecord(new EmployeeUser(employeeId, name, email, address, phoneNumber));
+    }
+
+    public void addEmployee(EmployeeUser user) {
+        database.insertRecord(user);
     }
 
     public EmployeeUser[] getListOfEmployees() {
-        return null;
+        return database.returnAllRecords().toArray(new EmployeeUser[0]);
     }
 
     public void removeEmployee(String key) {
+        database.deleteRecord(key);
     }
 
     @Override
     public void logout() {
-
+        database.saveToFile();
     }
 }
