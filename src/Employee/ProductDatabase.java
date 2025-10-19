@@ -34,7 +34,7 @@ public class ProductDatabase extends Database<Product> {
     @Override
     public boolean contains(String key) {
         for(Product p : returnAllRecords())
-            if(p.getProductID().equals(key))
+            if(p.getSearchKey().equals(key))
                 return true;
         return false;
     }
@@ -42,7 +42,7 @@ public class ProductDatabase extends Database<Product> {
     @Override
     public Product getRecord(String key) {
         for(Product p : returnAllRecords())
-            if(p.getProductID().equals(key))
+            if(p.getSearchKey().equals(key))
                 return p;
         return null;
     }
@@ -54,7 +54,7 @@ public class ProductDatabase extends Database<Product> {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for(Product p : returnAllRecords()) {
                 String line = String.format("%s,%s,%s,%s,%d,%f",
-                        p.getProductID(),
+                        p.getSearchKey(),
                         p.getProductName(),
                         p.getManufacturerName(),
                         p.getSupplierName(),
@@ -67,12 +67,5 @@ public class ProductDatabase extends Database<Product> {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public boolean isUnique(String productID){
-        for(Product product : returnAllRecords())
-            if(product.getProductID().equalTo(productID))
-                return false;
-        return true;
     }
 }

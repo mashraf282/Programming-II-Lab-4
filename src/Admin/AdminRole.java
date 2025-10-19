@@ -11,6 +11,7 @@ public class AdminRole extends Role {
 
     private EmployeeUserDatabase database;
 
+    // Requested Constructor
     public AdminRole() {
         this.database = new EmployeeUserDatabase("Employees.txt");
         this.database.readFromFile();
@@ -25,10 +26,11 @@ public class AdminRole extends Role {
         this.database = database;
     }
 
-    // Requested methods (see pdf for details)
+    // Requested methods
     public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) throws Exception {
         if(database.contains(employeeId)) {
-            throw new Exception("Employee ID taken");
+            System.out.println("Employee already exists");
+            return;
         }
         database.insertRecord(new EmployeeUser(employeeId, name, email, address, phoneNumber));
     }

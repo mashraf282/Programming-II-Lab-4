@@ -1,0 +1,5 @@
+P2394,Laptop,Apple,TechSupplier,9,1500.000000
+P2395,Smartphone,Samsung,MobileWorld,24,800.000000
+P2396,Tablet,Microsoft,TechSupplier,15,600.000000
+P2397,Headphones,Sony,AudioHub,30,200.000000
+P2398,Smartwatch,Apple,TechSupplier,21,400.000000

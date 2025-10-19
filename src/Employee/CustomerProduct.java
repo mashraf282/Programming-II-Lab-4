@@ -44,7 +44,7 @@ public class CustomerProduct extends Information {
 
     @Override
     public String lineRepresentation() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd,MM,yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String dateStr = this.getPurchaseDate().format(formatter);
         return this.customerSSN + "," + this.productID + "," + dateStr + "," + this.paid;
     }

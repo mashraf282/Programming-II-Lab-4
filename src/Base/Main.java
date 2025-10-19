@@ -9,6 +9,8 @@ import Employee.Product;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +18,7 @@ public class Main {
         boolean active = true;
         while (true) {
             int choice;
+            active = true;
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter the password if you're an admin (press enter if you,re not): ");
             if (scanner.nextLine().equals("admin")) {
@@ -71,6 +74,7 @@ public class Main {
                         default:
                             admin.logout();
                             active = false;
+                            exit(0);
                     }
                 }
             }
@@ -83,8 +87,10 @@ public class Main {
                     System.out.println("3- purchase history");
                     System.out.println("4- make purchase");
                     System.out.println("5- refund purchase");
+                    System.out.println("6- logout");
                     System.out.println("else exit");
                     choice = scanner.nextInt();
+                    scanner.nextLine();
                     switch (choice) {
                         case 1: {
                             System.out.print("enter product id:");
@@ -97,14 +103,16 @@ public class Main {
                             String man_name = scanner.nextLine();
                             System.out.print("enter product quantity:");
                             int quan = scanner.nextInt();
-                            emp.addProduct(id, name, man_name, supp_name, quan);
+                            System.out.println("enter product price:");
+                            float price = scanner.nextFloat();
+                            emp.addProduct(id, name, man_name, supp_name, quan, price);
                             break;
                         }
 
                         case 2:
                             Product[] products = emp.getListOfProducts();
                             for (Product product : products) {
-                                product.lineRepresentation();
+                                System.out.println(product.lineRepresentation());
                                 System.out.println();
                             }
                             break;
@@ -112,7 +120,7 @@ public class Main {
                         case 3:
                             CustomerProduct[] purchases = emp.getListOfPurchasingOperations();
                             for (CustomerProduct purchase : purchases) {
-                                purchase.lineRepresentation();
+                                System.out.println(purchase.lineRepresentation());
                                 System.out.println();
                             }
                             break;
@@ -124,11 +132,11 @@ public class Main {
                             String id = scanner.nextLine();
                             LocalDate date = LocalDate.now();
 
-                            if (emp.purchaseProduct(ssn, id, date))
+                            if (emp.purchaseProduct(ssn, id, date)){
                                 if (emp.applyPayment(ssn, date))
                                     System.out.println("purchase successful");
-                                else
-                                    System.out.println("out of stock");
+                                }else
+                                    System.out.println("out of stock/not available");
                             break;
                         }
 
@@ -138,19 +146,31 @@ public class Main {
                             System.out.print("enter product id:");
                             String id = scanner.nextLine();
                             CustomerProduct[] history = emp.getListOfPurchasingOperations();
+                            double return_price = -2;
                             for (CustomerProduct purchase : history) {
                                 if (purchase.getCustomerSSN().equals(ssn) && purchase.getProductID().equals(id)) {
-                                    double return_price = emp.returnProduct(purchase.getCustomerSSN(), purchase.getProductID(), purchase.getPurchaseDate(), LocalDate.now());
-                                    System.out.println("refunded product's price: " + return_price);
+                                    return_price = emp.returnProduct(purchase.getCustomerSSN(), purchase.getProductID(), purchase.getPurchaseDate(), LocalDate.now());
+
                                 }
+                                if(return_price == -1)
+                                    System.out.println("Cannot return product");
+                                else if(return_price == -2)
+                                    System.out.println("No such purchase found");
+                                else
+                                    System.out.println("refunded product's price: " + return_price);
                             }
                             break;
                         }
 
-                        default:
+                        case 6:
                             emp.logout();
                             active = false;
                             break;
+
+                        default:
+                            emp.logout();
+                            exit(0);
+
                     }
                 }
             }

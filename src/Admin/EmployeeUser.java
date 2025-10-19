@@ -57,7 +57,7 @@ public class EmployeeUser extends Information {
     }
 
 
-    // Requested methods (check pdf for details)
+    // Requested methods
     @Override
     public String lineRepresentation() {
         return employeeId + "," + name + "," + email + "," + address + "," + phoneNumber;

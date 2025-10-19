@@ -24,7 +24,8 @@ public class CustomerProductDatabase extends Database<CustomerProduct> {
 
         String customerSSN = parts[0];
         String productID = parts[1];
-        LocalDate purchaseDate = LocalDate.parse(parts[2]);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate purchaseDate = LocalDate.parse(parts[2], formatter);
         boolean paid = Boolean.parseBoolean(parts[3]);
         CustomerProduct cp = new CustomerProduct(customerSSN, productID, purchaseDate);
         cp.setPaid(paid);

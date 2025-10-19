@@ -3,6 +3,8 @@ package Employee;
 import Base.Role;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class EmployeeRole extends Role {
 
@@ -34,9 +36,9 @@ public class EmployeeRole extends Role {
         this.customerProductDatabase = customerProductDatabase;
     }
 
-    // Requested methods (see pdf for details)
+    // Requested methods
     public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) {
-         if(!this.productDatabase.isUnique(productID)) {
+         if(productDatabase.contains(productID)) {
              System.out.println("Product already exists");
              return;
          }
@@ -52,15 +54,21 @@ public class EmployeeRole extends Role {
 
     public boolean purchaseProduct(String customerSSN, String productID, LocalDate purchaseDate)
     {
-        Product purchasedProduct;
+        Product purchasedProduct = null;
             for(Product product : getListOfProducts())
-                if(productID == product.productID)
+                if(productID.equals(product.getSearchKey()))
                     purchasedProduct = product;
+
+            if(purchasedProduct == null)
+                return false;
 
             if(purchasedProduct.getQuantity() < 1)
                 return false;
             else
-                purchasedProduct.setQuantity(getQuantity() - 1);
+                purchasedProduct.setQuantity(purchasedProduct.getQuantity()-1);
+
+            CustomerProduct cp = new CustomerProduct(customerSSN, productID, purchaseDate);
+            this.customerProductDatabase.insertRecord(cp);
 
             return true;
     }
@@ -72,26 +80,32 @@ public class EmployeeRole extends Role {
             return -1;
 
         boolean check = false;
-        Product returnedProduct;
-        for(Product product : getListOfProducts())
-            if(product.getproductID().equalTo(productID)) {
+        Product returnedProduct = null;
+        CustomerProduct cproduct = null;
+        for(CustomerProduct cp : getListOfPurchasingOperations())
+            if(cp.getCustomerSSN().equals(customerSSN) && cp.getProductID().equals(productID)) {
                 check = true;
-                returnedProduct = product;
+                returnedProduct = this.productDatabase.getRecord(productID);
+                cproduct = cp;
                 break;
             }
-        if(!check)
-            return -1;
 
+        if(returnedProduct == null || !check)
+            return -1;
+        
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String dateStr = cp.getPurchaseDate().format(formatter);
+        String dateStr = cproduct.getPurchaseDate().format(formatter);
 
         if(!customerProductDatabase.contains(customerSSN + "," + productID + "," + dateStr))
             return -1;
 
-        if(returnDate.compareTo(purchaseDate) > 14)
+        long daysBetween = ChronoUnit.DAYS.between(purchaseDate, returnDate);
+        if(daysBetween > 14)
             return -1;
 
-        returnedProduct.setQuantity(returnedProduct.getQuantity()++);
+        returnedProduct.setQuantity(returnedProduct.getQuantity()+1);
+
+        this.customerProductDatabase.deleteRecord(customerSSN + "," + productID + "," + dateStr);
 
         return returnedProduct.getPrice();
 
@@ -99,14 +113,12 @@ public class EmployeeRole extends Role {
 
     public boolean applyPayment(String customerSSN, LocalDate purchaseDate)
     {
-        for(Products product : getListOfProducts()){
-            if(customerSSN.equalTo(product.getCusromerSSN) && purchaseDate.isEqual(product.getPurchaseDate){
-                if(product.isPaid)
-                    return false;
-                else
-                    product.setPaid = true;
+        for(CustomerProduct cp : getListOfPurchasingOperations())
+            if(cp.getCustomerSSN().equals(customerSSN) && cp.getPurchaseDate().equals(purchaseDate)) {
+                cp.setPaid(true);
+                return true;
             }
-        }
+        return false;
     }
 
     @Override
