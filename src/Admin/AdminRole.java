@@ -26,7 +26,10 @@ public class AdminRole extends Role {
     }
 
     // Requested methods (see pdf for details)
-    public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) {
+    public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) throws Exception {
+        if(database.contains(employeeId)) {
+            throw new Exception("Employee ID taken");
+        }
         database.insertRecord(new EmployeeUser(employeeId, name, email, address, phoneNumber));
     }
 
