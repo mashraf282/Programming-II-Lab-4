@@ -68,4 +68,11 @@ public class ProductDatabase extends Database<Product> {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean isUnique(String productID){
+        for(Product product : returnAllRecords())
+            if(product.getProductID().equalTo(productID))
+                return false;
+        return true;
+    }
 }

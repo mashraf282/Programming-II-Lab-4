@@ -19,9 +19,6 @@ public class Product extends Information {
     }
 
     // Extra Setters and Getters (not requested but useful)
-    public String getProductID() {
-        return productID;
-    }
 
     public void setProductID(String productID) {
         this.productID = productID;
@@ -70,11 +67,12 @@ public class Product extends Information {
 
     @Override
     public String lineRepresentation() {
-        return "";
+        return this.productID + "," + this.productName + "," + this.manufacturerName + "," + this.supplierName + "," + this.quantity + "," + this.price;
     }
 
     @Override
     public String getSearchKey() {
-        return "";
+        return this.productID;
     }
+
 }
