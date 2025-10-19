@@ -11,20 +11,20 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-       // go all out, good luck
+        // go all out, good luck
         boolean active = true;
         int choice;
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the password if you're an admin(press enter if you,re not):");
-        if(scanner.nextLine().equals("admin")){
+        if (scanner.nextLine().equals("admin")) {
             AdminRole admin = new AdminRole();
-            while(active){
+            while (active) {
                 System.out.println("1- Add employee");
                 System.out.println("2- List all employees");
                 System.out.println("3- remove employee");
                 System.out.println("else exit");
                 choice = scanner.nextInt();
-                switch(choice){
+                switch (choice) {
                     case 1:
                         System.out.print("enter employee ID:");
                         String id = scanner.nextLine();
@@ -41,10 +41,11 @@ public class Main {
 
                     case 2:
                         EmployeeUser[] employees = admin.getListOfEmployees();
-                        for(EmployeeUser employee: employees){
+                        for (EmployeeUser employee : employees) {
                             employee.lineRepresentation();
                             System.out.println();
-                        }break;
+                        }
+                        break;
 
                     case 3:
                         System.out.print("Enter employee id:");
@@ -62,7 +63,7 @@ public class Main {
         //comment for good luck
         else {
             EmployeeRole emp = new EmployeeRole();
-            while(active){
+            while (active) {
                 System.out.println("1- add product");
                 System.out.println("2- list all products");
                 System.out.println("3- purchase history");
@@ -70,7 +71,7 @@ public class Main {
                 System.out.println("5- refund purchase");
                 System.out.println("else exit");
                 choice = scanner.nextInt();
-                switch(choice) {
+                switch (choice) {
                     case 1:
                         System.out.print("enter product id:");
                         String id = scanner.nextLine();
@@ -91,6 +92,7 @@ public class Main {
                             product.lineRepresentation();
                             System.out.println();
                         }
+                        break;
 
                     case 3:
                         CustomerProduct[] purchases = emp.getListOfPurchasingOperations();
@@ -98,8 +100,9 @@ public class Main {
                             purchase.lineRepresentation();
                             System.out.println();
                         }
+                        break;
 
-                    case 4:
+                    case 4: {
                         System.out.print("enter customer ssn:");
                         String ssn = scanner.nextLine();
                         System.out.print("enter product id:");
@@ -109,22 +112,24 @@ public class Main {
                         if (emp.purchaseProduct(ssn, id, date))
                             if (emp.applyPayment(ssn, date))
                                 System.out.println("purchase successful");
-
                             else
                                 System.out.println("out of stock");
+                    }
+                    break;
 
                     case 5:
                         System.out.print("enter customer ssn:");
-                        ssn = scanner.nextLine();
+                        String ssn = scanner.nextLine();
                         System.out.print("enter product id:");
                         id = scanner.nextLine();
                         CustomerProduct[] history = emp.getListOfPurchasingOperations();
-                        for(CustomerProduct purchase : history){
-                            if(purchase.getCustomerSSN().equals(ssn) && purchase.getProductID().equals(id)) {
-                                Double return_price = emp.returnProduct(purchase.getCustomerSSN(), purchase.getProductID(), purchase.getPurchaseDate(), LocalDate.now());
+                        for (CustomerProduct purchase : history) {
+                            if (purchase.getCustomerSSN().equals(ssn) && purchase.getProductID().equals(id)) {
+                                double return_price = emp.returnProduct(purchase.getCustomerSSN(), purchase.getProductID(), purchase.getPurchaseDate(), LocalDate.now());
                                 System.out.println("refunded product's price: " + return_price);
                             }
                         }
+                        break;
 
                     default:
                         emp.logout();

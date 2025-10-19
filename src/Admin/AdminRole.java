@@ -13,7 +13,7 @@ public class AdminRole extends Role {
 
     public AdminRole() {
         this.database = new EmployeeUserDatabase("Employees.txt");
-        //TODO: i think we should load the data from file here as logout saves channged data to file
+        this.database.readFromFile();
     }
 
     // Extra Setters and Getters (not requested but useful)
