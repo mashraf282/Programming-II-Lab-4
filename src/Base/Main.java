@@ -14,7 +14,6 @@ import static java.lang.System.exit;
 
 public class Main {
     public static void main(String[] args) {
-        // go all out, good luck
         boolean active = true;
         while (true) {
             int choice;
@@ -44,11 +43,14 @@ public class Main {
                             String address = scanner.nextLine();
                             System.out.print("enter employee phone number: ");
                             String phone_num = scanner.nextLine();
+
                             try {
                                 admin.addEmployee(id, name, email, address, phone_num);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                throw new RuntimeException(e);
                             }
+
+
                             break;
                         }
 
@@ -78,7 +80,6 @@ public class Main {
                     }
                 }
             }
-            //comment for good luck
             else {
                 EmployeeRole emp = new EmployeeRole();
                 while (active) {

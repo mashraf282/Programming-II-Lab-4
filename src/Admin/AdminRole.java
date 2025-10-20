@@ -33,6 +33,7 @@ public class AdminRole extends Role {
             return;
         }
         database.insertRecord(new EmployeeUser(employeeId, name, email, address, phoneNumber));
+        System.out.println("Employee added successfully");
     }
 
     public void addEmployee(EmployeeUser user) {

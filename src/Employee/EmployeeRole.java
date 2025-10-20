@@ -44,6 +44,7 @@ public class EmployeeRole extends Role {
          }
          Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
          this.productDatabase.insertRecord(product);
+        System.out.println("Product added successfully");
     }
 
     public Product[] getListOfProducts() {
